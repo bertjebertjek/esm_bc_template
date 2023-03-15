@@ -1,0 +1,12 @@
+./submit_pbs_01.sh
+./submit_pbs_02.sh
+./submit_pbs_03.sh
+./submit_pbs_04.sh
+./submit_pbs_05.sh
+./submit_pbs_06.sh
+./submit_pbs_07.sh
+./submit_pbs_08.sh
+./submit_pbs_09.sh
+./submit_pbs_10.sh
+./submit_pbs_11.sh
+./submit_pbs_12.sh
