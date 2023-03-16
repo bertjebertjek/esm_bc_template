@@ -1,0 +1,25 @@
+#!/bin/bash -l
+#PBS -N mk_monthly_prl
+#PBS -A p48500028
+#PBS -l select=1:ncpus=12:mpiprocs=12:mem=200GB
+#PBS -l walltime=12:00:00
+#PBS -q casper
+###### ##PBS -o create_monthly_prl.out # uncomment if you dont want a job ID but a generic output+err name
+#PBS -j oe
+
+### old
+# module load ncarenv
+# module load python/3.7.9
+# ncar_pylib
+
+## 
+# conda activate mypy39
+# __conda_setup="$('/glade/u/home/bkruyt/miniconda3/bin' 'shell.bash' 'hook' 2> /dev/null)"
+# eval "$__conda_setup"
+# unset __conda_setup
+
+module load conda
+conda activate /glade/work/bkruyt/conda-envs/mypy39
+
+### Run program 
+python -u create_monthly_files_prl.py

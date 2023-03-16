@@ -1,14 +1,17 @@
-# ESM bias Correction
+# ESM bias Correction workflow
 
-Bias correction of 3D and 2D (separate) fields for CMIP6 Global Climate Models (GCM's).
+This README describes the procedure for the Bias correction of 3D and 2D (separate) fields for CMIP6 Global Climate Models (GCM's).
+
+NOTE: this repository only contains the tempate folder structure, the actual fortran code can be found on [the NCAR github page](https://github.com/NCAR/ESM_bias_correction)
+
 
 ## Installation
 
-The fortran code can be found here: `https://github.com/NCAR/ESM_bias_correction/`
+The fortran code can be found here: [github.com/NCAR/ESM_bias_correction](https://github.com/NCAR/ESM_bias_correction). (Compile and link to the executable `esm_bias_correction` in the main folder.)
 
 The compressed CMIP6 models: `/glade/campaign/ral/hap/trude/CMIP6/FORCING/NOAA_SNOW`
 
-
+Clone this repo (esm_bc_template) and link to the compiled fortran code's executable.
 
 ## Usage
 
@@ -40,7 +43,7 @@ qsubcasper create_monthly_files_BK.pbs
 ### 2. Apply ESM bias correction (3D)
 
 #### 2A. Setup folder structure
-This involves an elaborate folder structure. However the process is somewhat automated. A template folder structure can be found here: [INSERT esm_bc_template github link]. the `MAIN.sh` file is the only one that needs to be modified. Specify the model, scenarios and paths in the section `USER SETTINGS` (lines 15-35):
+This involves an elaborate folder structure. However the process is somewhat automated. A template folder structure can be found on [Bert's github](https://github.com/bertjebertjek/esm_bc_template). the `MAIN.sh` file is the only one that needs to be modified. Specify the model, scenarios and paths in the section `USER SETTINGS` (lines 15-35):
 
 ```bash
 #---------------------------- USER SETTINGS:  -----------------------------------
@@ -51,7 +54,6 @@ declare -a ModelArray=("NorESM2-MM" "CanESM5"  )  # test
 
 # # The scenarios 
 declare -a ScenarioArray=("historical" "ssp585" )  # test
-# scen="ssp585" # for scen in scnearios
 
 # specify the folder where the model/scenario ESM stucture will be set up:
 root_dir="/glade/work/bkruyt/ESM_bias_correction/CMIP6"
@@ -70,6 +72,13 @@ Finally set up the structure by running main.sh:
 ```bash
 sh MAIN.sh
 ```
+This will prompt you to confirm the setup of the folders for the model/scenario combinations listed in the USER SETTINGS. 
+``` 
+Setting up Model/scenario structure in root:  /glade/work/bkruyt/ESM_bias_correction/CMIP6
+ For the following models : NorESM2-MM CanESM5
+ For the following scenarios : historical ssp585
+ Do you wish to proceed? [y/n]
+```
 (Note: This procedure creates scripts for ~ 30y runs. Depending on memory availability you may want to modify this. To do so, modify the script `duplicate_months.sh` in esm_bc_template, look for the variables StartYears and EndYears.) 
 
 #### 2B Run 3D ESM bias correction
@@ -79,3 +88,21 @@ The procedure under 2A will have created job scripts. per Model/scenario folder 
 ```bash
 sh SUBMIT_ALL.sh
 ```
+
+
+...
+
+###  now....
+
+
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)

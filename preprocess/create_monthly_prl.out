@@ -1,0 +1,160 @@
+CESM2 historical
+computed Z for CESM2
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/core/indexing.py:1372: PerformanceWarning: Slicing is producing a large chunk. To accept the large
+chunk and silence this warning, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': False}):
+    ...     array[indexer]
+
+To avoid creating the large chunks, set the option
+    >>> with dask.config.set(**{'array.slicing.split_large_chunks': True}):
+    ...     array[indexer]
+  return self.array[key]
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:77: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:78: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+CESM2 historical  time:  1493.2605605125427
+CESM2  tot time:  1493.2613198757172

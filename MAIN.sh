@@ -4,10 +4,10 @@
 #
 # Copy files and folder structure from template dir to each model (ModelArray)'s dir (will be made)
 #
+# see README.md for instructions
+# 
 #
-# run from CMIP6/template/  (CESM2 is template model)
-#
-# Authors: Abby Smith, Ryan Currier, Bert Kruyt, NCAR RAL, 2022-23
+# Authors: Bert Kruyt, Abby Smith, Ryan Currier,  NCAR RAL, 2022-23
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
@@ -16,11 +16,11 @@
 
 # the models for which directories will be created:
 # declare -a ModelArray=("CanESM5" "CESM2" "CMCC-CM2-SR5" "CNRM-ESM2-1" "HadGEM3-GC31-LL" "MIROC-ES2L" "MPI-ESM1-2-HR" "MRI-ESM2-0" "NorESM2-MM" "UKESM1-0-LL")
-declare -a ModelArray=("NorESM2-MM" "CanESM5"  )  # test
+declare -a ModelArray=("MIROC-ES2L" )  # test
 
 # # The scenarios 
-declare -a ScenarioArray=("historical" "ssp585" )  # test
-# scen="ssp585" # for scen in scnearios
+# declare -a ScenarioArray=("historical" "ssp585" )  # test
+declare -a ScenarioArray=("historical" "ssp585" "ssp370")  
 
 # specify the folder where the model/scenario ESM stucture will be set up:
 root_dir="/glade/work/bkruyt/ESM_bias_correction/CMIP6"
@@ -39,7 +39,7 @@ scratch_output="/glade/scratch/bkruyt/CMIP6/monthly_BC_3D"
 echo "  "
 echo " Setting up Model/scenario structure in root: " $root_dir 
 echo " For the following models : "${ModelArray[*]}
-echo " For the following models : "${ScenarioArray[@]}   # "$@" expands each element as a separate argument, "$*" expands to the arguments merged into one argument.
+echo " For the following scenarios : "${ScenarioArray[@]}   # "$@" expands each element as a separate argument, "$*" expands to the arguments merged into one argument.
 echo " Do you wish to proceed? [y/n]"
 
 read varname

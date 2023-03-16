@@ -1,0 +1,64 @@
+
+
+Creating montly GCM files for model(s) ['CanESM5']
+ for scenario(s) ['historical', 'ssp585ssp370']
+
+
+CanESM5 historical
+computed Z for CanESM5
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:84: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'),
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py:85: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.
+  ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
+CanESM5 historical  time:  492.8150475025177
+CanESM5 ssp585ssp370
+Traceback (most recent call last):
+  File "/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bc_template/preprocess/create_monthly_files_prl.py", line 107, in <module>
+    t1 = time.time()
+  File "/glade/work/bkruyt/conda-envs/mypy39/lib/python3.9/site-packages/xarray/backends/api.py", line 948, in open_mfdataset
+    raise OSError("no files to open")
+OSError: no files to open
