@@ -15,13 +15,15 @@ Clone this repo (esm_bc_template) and link to the compiled fortran code's execut
 
 ## Usage
 
-Several pre- and postprocessing steps are required before the Fortran code can be run. 
+The following steps are required before the Fortran code can be run. 
 
-### 1. Make monthly GCM files
+### 1. Make monthly files
+Both the GCM data and the ERAi data need to be separated into monthly files, so the bias correction can be done per month. 
+#### 1A. Make monthly GCM files
 Divide the GCM output into monthly files. This means grouping all the january's, all the february's etc. 
-Use the script `create_monthly_files_BK.py` 
+Use the script `create_monthly_files_prl.py` in the folder preprocess. It is paralellized over 12 months/cores.
 
-! Specify the models and scenario's /periods in lines 28-36 of the script `create_monthly_files_BK.py`:
+! Specify the models and scenario's /periods in lines 28-36 of the script `create_monthly_files_prl.py`:
 
 ```python
 scenarios=['historical', 'ssp585','ssp370']
@@ -40,6 +42,9 @@ Then submit (modify queue if you want to submit to cheyenne):
 qsubcasper create_monthly_files_BK.pbs
 ```
 
+#### 1B. Make monthly ERAi files
+Similarly, we need monthly files for ERA-Interim to bias correct 'towards'. These may already be available at `/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc` (Western US) or  `/glade/scratch/bkruyt/erai/erai_greatlakes_month` (Great lakes domain). If not, they can be made from standard ERAi files with the Jupyter notebook found in `preprocess/create_monthly_ERAi_files.ipynb`. Note that these files do need to be named `erai_01.nc` etc. for the bias-correction code to work. 
+
 ### 2. Apply ESM bias correction (3D)
 
 #### 2A. Setup folder structure
@@ -50,10 +55,11 @@ This involves an elaborate folder structure. However the process is somewhat aut
 
 # the models for which directories will be created:
 # declare -a ModelArray=("CanESM5" "CESM2" "CMCC-CM2-SR5" "CNRM-ESM2-1" "HadGEM3-GC31-LL" "MIROC-ES2L" "MPI-ESM1-2-HR" "MRI-ESM2-0" "NorESM2-MM" "UKESM1-0-LL")
-declare -a ModelArray=("NorESM2-MM" "CanESM5"  )  # test
+declare -a ModelArray=("NorESM2-MM" "CanESM5"  )
 
 # # The scenarios 
-declare -a ScenarioArray=("historical" "ssp585" )  # test
+declare -a ScenarioArray=("historical" "ssp585" )
+# scen="ssp585" # for scen in scnearios
 
 # specify the folder where the model/scenario ESM stucture will be set up:
 root_dir="/glade/work/bkruyt/ESM_bias_correction/CMIP6"
@@ -61,12 +67,22 @@ root_dir="/glade/work/bkruyt/ESM_bias_correction/CMIP6"
 # specify the location of the monthly GCM files, created with the script create_monthly_files_BK.sh. This path will be linked to.
 GCM_month="/glade/scratch/bkruyt/CMIP6/raw_month"
 
+# specify location of the era-interim files that will be used to bias correct to. Note that if domain is smaller than the GCM, the output will be cropped to this domain:
+# erai_path="/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc" # W-COnus domain
+erai_path="/glade/scratch/bkruyt/erai/erai_greatlakes_month"  # Great Lakes domain
+
 # specify the output folder on scratch, this will be created and linked to:
 scratch_output="/glade/scratch/bkruyt/CMIP6/monthly_BC_3D"
 
+# Choose queue to specify in job scripts ('cheyenne' or 'casper') - This will automatically set memory to 100GB (cheyenne) or 200GB (casper):
+# queue='cheyenne'  
+queue='cheyenne' # Choose queue to specify in job scripts ('cheyenne' or 'casper') - This will automatically set memory to 100GB (cheyenne) or 200GB (casper)
+
+# The memory in GB for each job. (Note that regular has a 100GB limit, and casper 350 (or 500 for large mem nodes))
+mem=40 
+
 ```
-This assumes you will use the monthly erai files as a reference to bias correct 'towards' , these are linked in the esm_template directory:
-`erai -> /glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc`. Check these files are present, or if you want to use something else, modify this link.
+
 
 Finally set up the structure by running main.sh:
 ```bash
@@ -81,20 +97,20 @@ Setting up Model/scenario structure in root:  /glade/work/bkruyt/ESM_bias_correc
 ```
 (Note: This procedure creates scripts for ~ 30y runs. Depending on memory availability you may want to modify this. To do so, modify the script `duplicate_months.sh` in esm_bc_template, look for the variables StartYears and EndYears.) 
 
-#### 2B Run 3D ESM bias correction
+#### 2B. Run 3D ESM bias correction
 
-The procedure under 2A will have created job scripts. per Model/scenario folder structure, run the script `SUBMIT_ALL.sh`, which will submit jobs for all months, divided into ~30y periods. 
+The procedure under 2A will have created job scripts in `$root_dir/model/scenario`. per Model/scenario folder structure, run the script `SUBMIT_ALL.sh`, which will submit jobs for all months, divided into ~30y periods. 
 
 ```bash
 sh SUBMIT_ALL.sh
 ```
+This will launch all job scripts for the model/scenario combination. Currently a standard walltime of 4 hrs is hardcoded in `duplicate_months.sh`.
 
+### 3 Postprocess: Combine monthly files
 
-...
+After the bias correction has run, the output dir will have files per month and ~30y time-period. To combine these into yearly files, use the notebook 
 
-###  now....
-
-
+```
 
 ## Contributing
 

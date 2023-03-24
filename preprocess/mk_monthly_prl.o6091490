@@ -1,0 +1,23 @@
+
+
+Creating monthly GCM files for model(s) ['MIROC-ES2L']
+ for scenario(s) ['ssp370']
+
+
+MIROC-ES2L ssp370
+computed Z for MIROC-ES2L
+
+    ----- month  1 ------
+    2015-01-01 2099-02-15
+   * * *   RAM Used (GB): 93.734719488    * * *   
+
+MIROC-ES2L ssp370  time:  153.46186780929565
+MIROC-ES2L  tot time:  153.46196031570435
+
+
+************************  Finished creating monthly files **************************
+*********        For models:  ['MIROC-ES2L']         ************
+*********        and scenarios:  ['ssp370']          ************
+************************************************************************************* 
+
+

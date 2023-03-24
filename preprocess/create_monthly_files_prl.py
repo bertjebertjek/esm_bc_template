@@ -31,8 +31,8 @@ import itertools
 
 ######################################     USER SETTINGS    ############################################################
 
-scenarios=['historical', 'ssp585', 'ssp370'] # ['historical', 'ssp585','ssp370']
-modLs=['CanESM5']
+scenarios=['ssp370'] # ['historical', 'ssp585','ssp370']  # ['ssp585', 'ssp370'] # 
+modLs=['MIROC-ES2L'] #['CESM2']
 #'CanESM5','CESM2','CMCC-CM2-SR5','MIROC-ES2L','MPI-M.MPI-ESM1-2-LR','NorESM2-MM',  'CNRM-ESM2-1'
 
 
@@ -71,12 +71,12 @@ def month_func(month_idx): #, ds=ds):
             print('executed')
             month_grouped=month_grouped # leave as is: dont go forward
         elif i < len(idx)-1:
-            try:  # originally whole try statement was commented out
-                # month_grouped[ idx[i+1]+1 : idx[i+1]+16 ] = month_idx*np.ones(15)  # org
-                month_grouped[ idx[i+1]+1 : idx[i+1]+(15*4)+1 ] = month_idx*np.ones(15*4)  # BK addition
-            except:
-                month_grouped=month_grouped                  
-            # month_grouped[idx[i+1]+1:idx[i+1]+(15*4)+1]=month_idx*np.ones(15*4)  # original code. 
+            # try:  # originally whole try statement was commented out
+            #     # month_grouped[ idx[i+1]+1 : idx[i+1]+16 ] = month_idx*np.ones(15)  # org
+            #     month_grouped[ idx[i+1]+1 : idx[i+1]+(15*4)+1 ] = month_idx*np.ones(15*4)  # BK addition
+            # except:
+            #     month_grouped=month_grouped                  
+            month_grouped[idx[i+1]+1:idx[i+1]+(15*4)+1]=month_idx*np.ones(15*4)  # original code. 
 
     dsGroup=ds.groupby(month_grouped).groups
     ds_month=ds.isel(time=dsGroup[month_idx])
@@ -155,8 +155,9 @@ for z in range(len(modLs)):
 
 print("\n")
 print("************************  Finished creating monthly files **************************")
-print("*********   For models: ", modLs, " ************")
-print("*********   and scenarios: ", scenarios, " ************")
+print("*********        For models: ", modLs, "        ************")
+print("*********        and scenarios: ", scenarios, "         ************")
+print("************************************************************************************* ")
 print("\n")
 
 

@@ -1,10 +1,10 @@
 #!/bin/bash -l
 ### Job Name
-#PBS -N bc01
+#PBS -N bc01-2015
 ### Charging account
 #PBS -A p48500028
 ### Request one chunk of resources with 1 CPU and 100 GB of memory (for more mem move to casper, 350 on std nodes, 500 on large mem)
-#PBS -l select=1:ncpus=36:ompthreads=36:mem=200GB
+#PBS -l select=1:ncpus=36:ompthreads=36:mem=XX_GB
 ### Allow job to run up to 12 h
 #PBS -l walltime=12:00:00
 ### Route the job to the regular queue
