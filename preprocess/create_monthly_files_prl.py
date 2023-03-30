@@ -32,7 +32,7 @@ import itertools
 ######################################     USER SETTINGS    ############################################################
 
 scenarios=['ssp370'] # ['historical', 'ssp585','ssp370']  # ['ssp585', 'ssp370'] # 
-modLs=['MIROC-ES2L'] #['CESM2']
+modLs=['CESM2'] #['NorESM2-MM'] #
 #'CanESM5','CESM2','CMCC-CM2-SR5','MIROC-ES2L','MPI-M.MPI-ESM1-2-LR','NorESM2-MM',  'CNRM-ESM2-1'
 
 
@@ -75,7 +75,7 @@ def month_func(month_idx): #, ds=ds):
             #     # month_grouped[ idx[i+1]+1 : idx[i+1]+16 ] = month_idx*np.ones(15)  # org
             #     month_grouped[ idx[i+1]+1 : idx[i+1]+(15*4)+1 ] = month_idx*np.ones(15*4)  # BK addition
             # except:
-            #     month_grouped=month_grouped                  
+            #     month_grouped=month_grouped
             month_grouped[idx[i+1]+1:idx[i+1]+(15*4)+1]=month_idx*np.ones(15*4)  # original code. 
 
     dsGroup=ds.groupby(month_grouped).groups
@@ -95,8 +95,9 @@ def month_func(month_idx): #, ds=ds):
     print('   * * *   RAM Used (GB):', psutil.virtual_memory()[3]/1000000000, '   * * *   \n')
 
     # save the monthly file to disk:
-    ds_month.to_netcdf(out_dir+modLs[z]+'_'+str(month_idx).zfill(2)+'.nc'  ,  encoding={'time':{'units': "days since 1900-01-01 00:00:00"}}) 
-
+    # !!! Note that the esm_bias_correction fortran code expects this time encoding, if it is changed here the output of the bias correction will have the wromg time stamp!!!!
+    ds_month.to_netcdf(out_dir+modLs[z]+'_'+str(month_idx).zfill(2)+'.nc'  ,  encoding={'time':{'units':"days since 1900-01-01"}}) 
+    # "hours since 1950-01-01T12:00:00"
 
 
 #-------------------- loop over months and scenarios  ------------------
@@ -107,7 +108,7 @@ for z in range(len(modLs)):
         t1 = time.time()
 
         # Open the entire raw dataset for this scenatio:
-        # print(dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_20150101-20200101_subset_c.nc') # for debugging
+        print(dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_20150101-20200101_subset_c.nc') # for debugging
         ds = xr.open_mfdataset( dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_subset_c.nc'  ,combine='by_coords')
         
         # for testing, open just one file (look at years/scen combi)  # NB YEAR!!
@@ -119,17 +120,17 @@ for z in range(len(modLs)):
         ds=ds.sel(time=~ds.get_index("time").duplicated())
         ds['P'] = ds['P'].astype('float32')
         ds['SST'] = ds['SST'].astype('float32')
-        
+
         gcmP   = ds['P']
         gcmPs  = ds['Ps']
         gcmT   = ds['T']
         gcmHGT = ds['HGT']
-        
+
         g  = 9.80665
         R  = 8.3144598
-        M  = 0.0289644 
+        M  = 0.0289644
         Lb = -6.5/1000 #(K/m)
-        
+
         exponent = ((-g*M)/(R*Lb))
         P_ratio  = gcmP/gcmPs
         T_b      = gcmT[:,0,:,:]
@@ -137,7 +138,7 @@ for z in range(len(modLs)):
         ds['Z']  = ds['Z']+gcmHGT
         ds['Z']  = ds['Z'].transpose("time", "lev", "lat", "lon")
         print('computed Z for '+modLs[z])
-        
+
         # make output directory (w. modLs[z]/scen subdirs) if it doesnt exist:
         out_dir = dir_raw_month + modLs[z] +'/' + scen + '/'
         if not os.path.exists(out_dir):
@@ -148,8 +149,8 @@ for z in range(len(modLs)):
         ## Call in parallel :
         with mp.Pool(processes = Nprocs) as p:
             p.map( month_func, range(1,13) )          # for month_idx in range(1,13):
-            
-            
+
+
         print(modLs[z], scen, " time: ", time.time() - t1 ) 
     print(modLs[z], " tot time: ", time.time() - t0 ) 
 

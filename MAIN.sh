@@ -1,26 +1,26 @@
 #!/bin/bash
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Copy files and folder structure from template dir to each model (ModelArray)'s dir (will be made)
 #
 # see README.md for instructions
-# 
+#
 #
 # Authors: Bert Kruyt, Abby Smith, Ryan Currier,  NCAR RAL, 2022-23
 #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 #--------------------------------       USER SETTINGS:       --------------------------------------
 
 # the models for which directories will be created:
 # declare -a ModelArray=("CanESM5" "CESM2" "CMCC-CM2-SR5" "CNRM-ESM2-1" "HadGEM3-GC31-LL" "MIROC-ES2L" "MPI-ESM1-2-HR" "MRI-ESM2-0" "NorESM2-MM" "UKESM1-0-LL")
-declare -a ModelArray=("MIROC-ES2L") # ("NorESM2-MM" )  # test
+declare -a ModelArray=("MIROC-ES2L") #("CESM2" )  #  test
 
-# # The scenarios 
-declare -a ScenarioArray=("ssp370"  )  # test
-# declare -a ScenarioArray=("historical" "ssp585" "ssp370")  
+# # The scenarios
+declare -a ScenarioArray=("historical"  )  # test
+# declare -a ScenarioArray=("historical" "ssp585" "ssp370")
 
 # specify the folder where the model/scenario ESM stucture will be set up:
 root_dir="/glade/work/bkruyt/ESM_bias_correction/CMIP6"
@@ -30,10 +30,11 @@ GCM_month="/glade/scratch/bkruyt/CMIP6/raw_month"
 
 # specify location of the era-interim files that will be used to bias correct to. Note that if domain is smaller than the GCM, the output will be cropped to this domain:
 # erai_path="/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc" # W-COnus domain
-erai_path="/glade/scratch/bkruyt/erai/erai_greatlakes_month-3"  # Great Lakes domain
+erai_path="/glade/scratch/bkruyt/erai/erai_greatlakes_month"  # Great Lakes domain
 
 # spedify the location of the compiled fortran code, esm_bias_correction:
-esm_exe='/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bias_correction'
+# esm_exe='/glade/work/bkruyt/ESM_bias_correction/CMIP6/esm_bias_correction'
+esm_exe='/glade/work/bkruyt/ESM_bias_correction/ESM_bias_correction/esm_bias_correction'
 
 # specify the output folder on scratch, this will be created and linked to:
 scratch_output="/glade/scratch/bkruyt/CMIP6/monthly_BC_3D"
@@ -50,7 +51,7 @@ mem=20
 
 
 echo "  "
-echo " Setting up Model/scenario structure in root: " $root_dir 
+echo " Setting up Model/scenario structure in root: " $root_dir
 echo " For the following models : "${ModelArray[*]}
 echo " For the following scenarios : "${ScenarioArray[@]}   # "$@" expands each element as a separate argument, "$*" expands to the arguments merged into one argument.
 echo " Jobs will run on $queue with $mem GB of memory."
@@ -70,7 +71,7 @@ fi
 
 for mdl in ${ModelArray[@]}; do
 	for scen in ${ScenarioArray[@]}; do
-		
+
 		echo "    Setting up $root_dir/$mdl/$scen"
 
 		# make dir for model and scenario if it does not yet exist:
@@ -81,7 +82,7 @@ for mdl in ${ModelArray[@]}; do
 
 		{ # try
 			rsync -r --exclude 'preprocess' --exclude 'helper_scripts' --exclude 'duplicate_months.sh' --exclude 'MAIN.sh' *  $root_dir/$mdl/$scen
-			
+
 		} || { # catch (in case rsync isn't available or some other error. )
 			echo "   rsync error"
 			cp -r * $root_dir/$mdl/$scen
@@ -103,7 +104,7 @@ for mdl in ${ModelArray[@]}; do
 
 		# Call the duplicate months script with arguments:
 		/bin/bash duplicate_months.sh "$root_dir/$mdl/$scen" $queue $mem
-		
+
 
 		echo "    Finished ESM bias correction set-up for $root_dir/$mdl/$scen"
 		echo "   "

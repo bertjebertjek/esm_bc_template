@@ -7,7 +7,7 @@ NOTE: this repository only contains the tempate folder structure, the actual for
 
 ## Installation
 
-The fortran code can be found here: [github.com/NCAR/ESM_bias_correction](https://github.com/NCAR/ESM_bias_correction). (Compile and link to the executable `esm_bias_correction` in the main folder.)
+The fortran code can be found here: [github.com/NCAR/ESM_bias_correction](https://github.com/NCAR/ESM_bias_correction). (Compile and link to the executable `esm_bias_correction` in the main folder.) Make sure to use the branch 'discontinuous time' if you want to bias correct per month. Otherwise the time variable output from the esm fortran code will be incorrect, and the postprocessing scripts will result in an error. 
 
 The compressed CMIP6 models: `/glade/campaign/ral/hap/trude/CMIP6/FORCING/NOAA_SNOW`
 
@@ -16,6 +16,8 @@ Clone this repo (esm_bc_template) and link to the compiled fortran code's execut
 ## Usage
 
 The following steps are required before the Fortran code can be run. 
+### 0. Download GCM data and process
+The GCM data need to be downloaded and depending on the model, certain variables need to be calculated. This is not described here (yet).
 
 ### 1. Make monthly files
 Both the GCM data and the ERAi data need to be separated into monthly files, so the bias correction can be done per month. 
@@ -108,7 +110,11 @@ This will launch all job scripts for the model/scenario combination. Currently a
 
 ### 3 Postprocess: Combine monthly files
 
-After the bias correction has run, the output dir will have files per month and ~30y time-period. To combine these into yearly files, use the notebook 
+After the bias correction has run, the output dir will have files per month and ~30y time-period. To combine these into yearly files, use the notebook 'stich_together_after_ESM.ipynb' in the postprocessing folder.
+
+Be sure to check the final files an see if they make sense. I cannot guarantee that there might be issues with certain models or fringe-case scenarios. 
+Happy modeling!
+
 
 ```
 
@@ -117,7 +123,8 @@ After the bias correction has run, the output dir will have files per month and 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+And please include comments in your code so it is understandable why you do what you do. A line of comment per line of code is a good rule of thumb. 
+
 
 ## License
 

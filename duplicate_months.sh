@@ -4,7 +4,7 @@
 #
 # Duplicate the month 01 folder to the other 11 months, and modify their contents. 
 #
-# 
+#
 #
 #
 # Authors: Abby Smith, Ryan Currier, Bert Kruyt, NCAR RAL, 2022-23
@@ -35,14 +35,14 @@ elif [ $# -eq 1 ]; then   #  1 arg
 elif [ $# -eq 2 ]; then   #  2 argument (optional) specifies the queue
 	# echo " 2 argument2 supplied: "$1 $2
 	target_path=$1
-	if ! { [ $2 == 'casper' ] || [ $2 == 'cheyenne' ];  }; then 
+	if ! { [ $2 == 'casper' ] || [ $2 == 'cheyenne' ];  }; then
 		echo "specify desired queue as either 'cheyenne' , 'casper' , or leave blank for default (casper) "
 		echo "  "
 		echo " !!!!!  ERROR , STOPPING !!!!!!! "
 		echo "  "
 		exit 1
 	else
-		queue=$2  # if the bias correction is to be done on casper or cheyenne.... 
+		queue=$2  # if the bias correction is to be done on casper or cheyenne....
 		mem=50
 		echo "    Setting up bias correction jobs to run on  $queue with a default memory of $mem GB per job "
 	fi
@@ -61,7 +61,7 @@ elif [ $# -eq 3 ]; then   #  2 argument (optional) specifies the queue
 			# echo "error: Not a number" >&2; exit 1
 			# fi
 	else
-		queue=$2  # if the bias correction is to be done on casper or cheyenne.... 
+		queue=$2  # if the bias correction is to be done on casper or cheyenne....
 		mem=$3
 		echo "    Setting up bias correction jobs to run on  $queue with $mem GB memory per job"
 	fi
@@ -101,7 +101,6 @@ for mon in ${StringArray[@]}; do
 		# copy the contents of the '01' folder to the new month:
 		cp $target_path/01/config_${year}-${year2}_01.nml $target_path/$mon/config_${year}-${year2}_$mon.nml
 		cp $target_path/01/bias_corr_${year}-${year2}_01.pbs $target_path/$mon/bias_corr_${year}-${year2}_$mon.pbs
-		
 
 		# create 11 job submission scripts:
 		if [[ $queue == 'cheyenne' ]]; then 
@@ -114,7 +113,7 @@ for mon in ${StringArray[@]}; do
 				echo "qsub 01/bias_corr_$year-${year2}_01.pbs " >> $target_path/submit_pbs_01.sh
 				echo " " >> $target_path/submit_pbs_01.sh
 			fi
-		
+
 		elif [[ $queue == 'casper' ]]; then 
 			echo "qsubcasper $mon/bias_corr_$year-${year2}_$mon.pbs " >> $target_path/submit_pbs_$mon.sh
 			echo " " >> $target_path/submit_pbs_$mon.sh
@@ -124,7 +123,7 @@ for mon in ${StringArray[@]}; do
 				echo "qsubcasper 01/bias_corr_$year-${year2}_01.pbs " >> $target_path/submit_pbs_01.sh
 				echo " " >> $target_path/submit_pbs_01.sh
 			fi
-		fi	
+		fi
 		count=$(($count+1))  # counter to loop through end years
 	done
 
