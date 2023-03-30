@@ -7,7 +7,7 @@ NOTE: this repository only contains the tempate folder structure, the actual for
 
 ## Installation
 
-The fortran code can be found here: [github.com/NCAR/ESM_bias_correction](https://github.com/NCAR/ESM_bias_correction). (Compile and link to the executable `esm_bias_correction` in the main folder.) Make sure to use the branch 'discontinuous time' if you want to bias correct per month. Otherwise the time variable output from the esm fortran code will be incorrect, and the postprocessing scripts will result in an error. 
+The fortran code can be found here: [github.com/NCAR/ESM_bias_correction](https://github.com/NCAR/ESM_bias_correction). (Compile and link to the executable `esm_bias_correction` in the main folder.) Make sure to use the branch 'discontinuous time' (currently only available at [Bert's github](https://github.com/bertjebertjek/ESM_bias_correction/tree/discontinuous_time), awaiting PR on NCAR github ) if you want to bias correct per month. Otherwise the time variable output from the esm fortran code will be incorrect, and the postprocessing scripts will result in an error. You can overwrite the erroneous time variable but this can easily lead to mistakes.
 
 The compressed CMIP6 models: `/glade/campaign/ral/hap/trude/CMIP6/FORCING/NOAA_SNOW`
 
@@ -45,7 +45,7 @@ qsubcasper create_monthly_files_BK.pbs
 ```
 
 #### 1B. Make monthly ERAi files
-Similarly, we need monthly files for ERA-Interim to bias correct 'towards'. These may already be available at `/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc` (Western US) or  `/glade/scratch/bkruyt/erai/erai_greatlakes_month` (Great lakes domain). If not, they can be made from standard ERAi files with the Jupyter notebook found in `preprocess/create_monthly_ERAi_files.ipynb`. Note that these files do need to be named `erai_01.nc` etc. for the bias-correction code to work. 
+Similarly, we need monthly files for ERA-Interim to bias correct 'towards'. These may already be available at `/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc` (Western US) or  `/glade/scratch/bkruyt/erai/erai_greatlakes_month` (Great lakes domain). If not, they can be made from standard ERAi files with the Jupyter notebook found in `preprocess/create_monthly_ERAi_files.ipynb`. Note that these files do need to be named `erai_01.nc` etc. for the bias-correction code to work.
 
 ### 2. Apply ESM bias correction (3D)
 
