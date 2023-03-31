@@ -1,0 +1,42 @@
+! namelist /ESM_parameters/ varnames, filelist, varnames, z_name, lat_name, lon_name, time_name, &
+!                                 ref_start, ref_end, cor_start, cor_end, n_segments, outputfile
+!
+! namelist /reference_parameters/ filelist, varnames, z_name, lat_name, lon_name, time_name, &
+!                                 ref_start, ref_end, cor_start, cor_end, n_segments, outputfile
+
+
+
+&ESM_parameters
+    varnames = "P","U","V","Qv","T"
+    filelist="file_list_GCM_01.txt"
+
+    z_name="Z",
+    lat_name="lat",
+    lon_name="lon",
+    time_name="time",
+    ref_start="1979-10-01 00:00:00"
+    ref_end="2019-08-31 18:00:00"
+    cor_start="2080-01-01 00:00:00"
+    cor_end="2084-12-31 20:00:00"
+
+    n_segments=100
+    outputfile="output/bias_corrected_2080-2084_01.nc"
+    exclude_correction=False
+/
+
+&reference_parameters
+    varnames = "p","u","v","qv","T"
+    filelist="file_list_01.txt"
+
+    z_name="z",
+    lat_name="lat",
+    lon_name="lon",
+    time_name="time",
+    ref_start="1979-10-01 00:00:00"
+    ref_end="2019-08-31 18:00:00"
+    cor_start="2080-01-01 00:00:00"
+    cor_end="2084-12-31 20:00:00"
+
+    n_segments=100
+    outputfile="output/bias_corrected_2080-2084_01.nc"
+/

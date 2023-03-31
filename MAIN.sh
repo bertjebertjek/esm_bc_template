@@ -16,10 +16,11 @@
 
 # the models for which directories will be created:
 # declare -a ModelArray=("CanESM5" "CESM2" "CMCC-CM2-SR5" "CNRM-ESM2-1" "HadGEM3-GC31-LL" "MIROC-ES2L" "MPI-ESM1-2-HR" "MRI-ESM2-0" "NorESM2-MM" "UKESM1-0-LL")
-declare -a ModelArray=("MIROC-ES2L") #("CESM2" )  #  test
+declare -a ModelArray=("CanESM5") #("CESM2" )  #  test
 
 # # The scenarios
-declare -a ScenarioArray=("historical"  )  # test
+declare -a ScenarioArray=("historical" "ssp585" )  # test
+# declare -a ScenarioArray=("historical")
 # declare -a ScenarioArray=("historical" "ssp585" "ssp370")
 
 # specify the folder where the model/scenario ESM stucture will be set up:
@@ -39,12 +40,17 @@ esm_exe='/glade/work/bkruyt/ESM_bias_correction/ESM_bias_correction/esm_bias_cor
 # specify the output folder on scratch, this will be created and linked to:
 scratch_output="/glade/scratch/bkruyt/CMIP6/monthly_BC_3D"
 
-# Choose queue to specify in job scripts ('cheyenne' or 'casper') - This will automatically set memory to 100GB (cheyenne) or 200GB (casper):
-# queue='cheyenne'  
-queue='cheyenne' # Choose queue to specify in job scripts ('cheyenne' or 'casper') - This will automatically set memory to 100GB (cheyenne) or 200GB (casper)
+# Choose queue to specify in job scripts ('cheyenne' or 'casper'):
+queue='cheyenne'
 
 # The memory in GB for each job. (Note that regular has a 100GB limit, and casper 350 (or 500 for large mem nodes))
-mem=20 
+mem=20
+
+# The number of years per job, currently only options are 5 years, or ~30 years.
+FiveYearChunks=true
+
+# Exclude correction? (This is an option in the Fortran ESM bias correction, and is set via the config.nml)
+ExcludeCorrection=true
 
 #---------------------------- No need to modify below this line  -----------------------------------
 
@@ -103,7 +109,10 @@ for mdl in ${ModelArray[@]}; do
 
 
 		# Call the duplicate months script with arguments:
-		/bin/bash duplicate_months.sh "$root_dir/$mdl/$scen" $queue $mem
+		# /bin/bash duplicate_months.sh "$root_dir/$mdl/$scen" $queue $mem
+
+		# under dev: 
+		/bin/bash duplicate_months_n_yr.sh "$root_dir/$mdl/$scen" $queue $mem $FiveYearChunks $ExcludeCorrection
 
 
 		echo "    Finished ESM bias correction set-up for $root_dir/$mdl/$scen"

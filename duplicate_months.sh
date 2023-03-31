@@ -16,25 +16,24 @@ declare -a StringArray=("02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12")
 
 #------------------------------------------------------
 # walltime should become an argument as well, but hardcoded for now:
-walltime_hr="04"
+# walltime_hr="04" for 30 year jobs, 01 for 5year jobs, set in ln 60
 #------------------------------------------------------
 
 
-# Check if the script is called with an argument (the target path), and if not use current dir as target:
+# Check if the script is called with arguments and set the corresponding variables
 if [ $# -eq 0 ];   then
     echo "No arguments supplied" # if called from current model's dir
 	target_path=$PWD # should include model and scen
 	queue='casper'
 	mem=50
-elif [ $# -eq 1 ]; then   #  1 arg
-	# echo " 1 argument supplied: "$1
+fi
+if [ $# -gt 0 ]; then   #  1 arg
 	target_path=$1
 	queue='casper'
 	mem=50
-	echo "    Setting up bias correction jobs to run on $queue (default) with a default memory of $mem GB per job "
-elif [ $# -eq 2 ]; then   #  2 argument (optional) specifies the queue
-	# echo " 2 argument2 supplied: "$1 $2
-	target_path=$1
+	# echo "    Setting up bias correction jobs to run on $queue (default) with a default memory of $mem GB per job "
+fi
+if [ $# -gt 1 ]; then   #  2 argument (optional) specifies the queue
 	if ! { [ $2 == 'casper' ] || [ $2 == 'cheyenne' ];  }; then
 		echo "specify desired queue as either 'cheyenne' , 'casper' , or leave blank for default (casper) "
 		echo "  "
@@ -43,48 +42,68 @@ elif [ $# -eq 2 ]; then   #  2 argument (optional) specifies the queue
 		exit 1
 	else
 		queue=$2  # if the bias correction is to be done on casper or cheyenne....
-		mem=50
-		echo "    Setting up bias correction jobs to run on  $queue with a default memory of $mem GB per job "
-	fi
-elif [ $# -eq 3 ]; then   #  2 argument (optional) specifies the queue
-	# echo " 3 argument2 supplied: "$1 $2 $3
-	target_path=$1
-	if ! { [ $2 == 'casper' ] || [ $2 == 'cheyenne' ];  }; then 
-		echo "specify desired queue as either 'cheyenne' , 'casper' , or leave blank for default (casper) "
-		echo "  "
-		echo " !!!!!  ERROR , STOPPING !!!!!!! "
-		echo "  "
-		exit 1
-	# elif {$3 != a number} ....
-			# re='^[0-9]+$'
-			# if ! [[ $yournumber =~ $re ]] ; then
-			# echo "error: Not a number" >&2; exit 1
-			# fi
-	else
-		queue=$2  # if the bias correction is to be done on casper or cheyenne....
-		mem=$3
-		echo "    Setting up bias correction jobs to run on  $queue with $mem GB memory per job"
 	fi
 fi
+if [ $# -gt 2 ]; then   #  3rd arg is mem
+	# # if {$3 != a number} ....
+	# 		# re='^[0-9]+$'
+	# 		# if ! [[ $yournumber =~ $re ]] ; then
+	# 		# echo "error: Not a number" >&2; exit 1
+	# 		# fi
+    # fi
+    mem=$3
+fi
+if [ $# -gt 3 ]; then   #  4th arg specifies 5yrchuncks (bool)
+	FiveYearChunks=$4
+    if $FiveYearChunks; then 
+        echo "    - Jobs will be submitted in five year chunks "
+        walltime_hr="01" #check if this is enough (should be)
+    else
+        walltime_hr="04"
+    fi
+fi
+if [ $# -gt 4 ]; then   #  5th arg specifies exclude_correction (bool)
+    ExcludeCorrection=$5
+    if $ExcludeCorrection; then  echo "    - Exclude Correction is TRUE "
+    fi
+fi
+
+echo "    Setting up bias correction jobs to run on  $queue with $mem GB memory and ${walltime_hr}hr walltime per job"
 
 
-# echo  $queue
 
+# depending on whether we want 5 year chunks or ~32 year ones, set some parameters:
 # Check which scenario / period to set up:
-# !!!! NOTe that if you change the years in StartYears or EndYears, you will have to change the .pbs and .nml files in the /01 folder!
-if [[ $target_path == *"ssp"* ]]; then
-	echo "    Setting up future period"
-	# full range may be too much for the mem demand, cut up into ~30 year chunks?
-	declare -a StartYears=("2015" "2047" "2079" )
-	declare -a EndYears=("2046" "2078" "2100" )
-elif  [[ $target_path == *"historical"* ]]; then
-	echo "    Setting up historical period"
-	declare -a StartYears=("1950" "1982")
-	declare -a EndYears=("1981" "2014")
-elif  [[ $target_path == *"template"* ]]; then
-	echo "--- In template dir, cannot run duplicate_months.sh from here. Exiting ---"
-	exit 1
+# !!!! NOTe that if you change the years in StartYears or EndYears, you will have to change the .pbs and .nml files in the /01 folder! (and probably the code below will break.)
+if $FiveYearChunks; then
+    n=5 # would be nice to make this an argument, but this is cumbersome.
+    if [[ $target_path == *"ssp"* ]]; then
+        echo "    Setting up future period"
+        StartYears=($(seq -s " " 2015 $n $((2100-$n)) ))
+        EndYears=($(seq -s " " $((2014+$n)) $n 2099 ))
+    elif  [[ $target_path == *"historical"* ]]; then
+        echo "    Setting up historical period"
+        StartYears=($(seq -s " " 1950 $n $((2015-$n)) ))
+        EndYears=($(seq -s " " $((1949+$n)) $n 2014 ))
+    elif  [[ $target_path == *"template"* ]]; then
+        echo "--- In template dir, cannot run duplicate_months.sh from here. Exiting ---"
+        exit 1
+    fi
+else # otherwise we make large blocks of about 30 years. Maybe we can do all at once? It is not that mem intensive after all....
+    if [[ $target_path == *"ssp"* ]]; then
+        echo "    Setting up future period"
+        declare -a StartYears=("2015" "2047" "2079" )
+        declare -a EndYears=("2046" "2078" "2100" )
+    elif  [[ $target_path == *"historical"* ]]; then
+        echo "    Setting up historical period"
+        declare -a StartYears=("1950" "1982")
+        declare -a EndYears=("1981" "2014")
+    elif  [[ $target_path == *"template"* ]]; then
+        echo "--- In template dir, cannot run duplicate_months.sh from here. Exiting ---"
+        exit 1
+    fi
 fi
+
 
 
 # create months>01 & copy the .nml and .pbs files from the /01 folder to the other months:
@@ -92,7 +111,7 @@ for mon in ${StringArray[@]}; do
 
 	# make output dir for each month > 01:
 	mkdir -p $target_path/$mon
-	
+
 	count=0
 	for year in ${StartYears[@]}; do
 		year2=${EndYears[count]}
@@ -140,20 +159,24 @@ for mon in ${StringArray[@]}; do
  	sed -i "s+_01.nml+_$mon.nml+g" $target_path/$mon/bias_corr_*.pbs
 
 	# set memory
-	sed -i "s+mem=XX_GB+mem=${mem}GB+g" $target_path/$mon/bias_corr_*.pbs   
+	sed -i "s+mem=XX_GB+mem=${mem}GB+g" $target_path/$mon/bias_corr_*.pbs
 	sed -i "s+mem=XX_GB+mem=${mem}GB+g" $target_path/01/bias_corr_*.pbs  # dont forget 01 dir :)
-	
+
 	# set walltime
-	sed -i "s+walltime=12:00:00+walltime=${walltime_hr}:00:00+g" $target_path/$mon/bias_corr_*.pbs   
+	sed -i "s+walltime=12:00:00+walltime=${walltime_hr}:00:00+g" $target_path/$mon/bias_corr_*.pbs
 	sed -i "s+walltime=12:00:00+walltime=${walltime_hr}:00:00+g" $target_path/01/bias_corr_*.pbs  # dont forget 01 dir :)
-	
-	
+
+
 	# if selected queue is cheyenne, modify the job scripts wrt. queue 
 	if [[ $queue == 'cheyenne' ]]; then
 		sed -i "s+casper+regular+g" $target_path/$mon/bias_corr_*.pbs
 		sed -i "s+casper+regular+g" $target_path/01/bias_corr_*.pbs
-		# sed -i "s+mem=XX_GB+mem=${mem}GB+g" $target_path/$mon/bias_corr_*.pbs  # BK cheyenne 100 GB max (casper 350 (or 500 on large mem nodes))
-		# sed -i "s+mem=XX_GB+mem=${mem}GB+g" $target_path/01/bias_corr_*.pbs  # dont forget 01 dir :)
 	fi
+
+    # If exclude correction is true, set it to true in the namellists as well:
+    if $ExcludeCorrection; then
+        sed -i "s+exclude_correction=False+exclude_correction=True+g" $target_path/$mon/config_*.nml
+        sed -i "s+exclude_correction=False+exclude_correction=True+g" $target_path/01/config_*.nml
+    fi
 
 done

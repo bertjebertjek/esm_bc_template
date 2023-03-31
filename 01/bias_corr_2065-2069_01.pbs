@@ -1,0 +1,17 @@
+#!/bin/bash -l
+### Job Name
+#PBS -N bc01-2065
+### Charging account
+#PBS -A p48500028
+### Request one chunk of resources with 1 CPU and 10 GB of memory
+#PBS -l select=1:ncpus=36:ompthreads=36:mem=XX_GB
+### Allow job to run up to 30 minutes
+#PBS -l walltime=12:00:00
+### Route the job to the casper queue
+#PBS -q casper
+### Join output and error streams into single file
+#PBS -j oe
+
+./esm_bias_correction 01/config_2065-2069_01.nml
+
+

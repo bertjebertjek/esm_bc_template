@@ -76,12 +76,17 @@ erai_path="/glade/scratch/bkruyt/erai/erai_greatlakes_month"  # Great Lakes doma
 # specify the output folder on scratch, this will be created and linked to:
 scratch_output="/glade/scratch/bkruyt/CMIP6/monthly_BC_3D"
 
-# Choose queue to specify in job scripts ('cheyenne' or 'casper') - This will automatically set memory to 100GB (cheyenne) or 200GB (casper):
-# queue='cheyenne'  
-queue='cheyenne' # Choose queue to specify in job scripts ('cheyenne' or 'casper') - This will automatically set memory to 100GB (cheyenne) or 200GB (casper)
+# Choose queue to specify in job scripts ('cheyenne' or 'casper')
+queue='cheyenne'
 
 # The memory in GB for each job. (Note that regular has a 100GB limit, and casper 350 (or 500 for large mem nodes))
-mem=40 
+mem=20
+
+# The number of years per job, currently only options are 5 years (FiveYearChunks=true), or ~30 years (FiveYearChunks= -you guessed it- false).
+FiveYearChunks=true
+
+# Exclude correction? (This is an option in the Fortran ESM bias correction, and is set via the config.nml)
+ExcludeCorrection=true
 
 ```
 
@@ -90,18 +95,20 @@ Finally set up the structure by running main.sh:
 ```bash
 sh MAIN.sh
 ```
-This will prompt you to confirm the setup of the folders for the model/scenario combinations listed in the USER SETTINGS. 
-``` 
+This will prompt you to confirm the setup of the folders for the model/scenario combinations listed in the USER SETTINGS.
+```
 Setting up Model/scenario structure in root:  /glade/work/bkruyt/ESM_bias_correction/CMIP6
  For the following models : NorESM2-MM CanESM5
  For the following scenarios : historical ssp585
  Do you wish to proceed? [y/n]
 ```
-(Note: This procedure creates scripts for ~ 30y runs. Depending on memory availability you may want to modify this. To do so, modify the script `duplicate_months.sh` in esm_bc_template, look for the variables StartYears and EndYears.) 
+
+Type 'y' and all will be set up and ready to roll.
+
 
 #### 2B. Run 3D ESM bias correction
 
-The procedure under 2A will have created job scripts in `$root_dir/model/scenario`. per Model/scenario folder structure, run the script `SUBMIT_ALL.sh`, which will submit jobs for all months, divided into ~30y periods. 
+The procedure under 2A will have created job scripts in `$root_dir/model/scenario`. per Model/scenario folder structure, run the script `SUBMIT_ALL.sh`, which will submit jobs for all months, divided into ~30y periods.
 
 ```bash
 sh SUBMIT_ALL.sh
