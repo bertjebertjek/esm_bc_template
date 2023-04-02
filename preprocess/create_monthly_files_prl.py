@@ -27,12 +27,14 @@ import os
 import glob, time, psutil
 import multiprocessing as mp
 import itertools
+import dask
 
+# dask.config.set(**{'array.slicing.split_large_chunks': True})
 
 ######################################     USER SETTINGS    ############################################################
 
-scenarios=['ssp370'] # ['historical', 'ssp585','ssp370']  # ['ssp585', 'ssp370'] # 
-modLs=['CESM2'] #['NorESM2-MM'] #
+scenarios= ['historical'] #, 'ssp585','ssp370']  #  ['ssp370'] #
+modLs=['CESM2'] #['CMCC-CM2-SR5',  'NorESM2-MM'] # ['CMCC-CM2-SR5', ] #
 #'CanESM5','CESM2','CMCC-CM2-SR5','MIROC-ES2L','MPI-M.MPI-ESM1-2-LR','NorESM2-MM',  'CNRM-ESM2-1'
 
 
@@ -43,7 +45,10 @@ dir_raw_decmp = '/glade/scratch/bkruyt/CMIP6/raw/'
 dir_raw_month = '/glade/scratch/bkruyt/CMIP6/raw_month/'
 
 # parallellize over the 12 months:
-Nprocs=12
+Nprocs=12 #test mem=40GB per process ??
+
+# print the amount of days for each month in the final monthly file (to check if the 15 day buffer was applied correctly)
+validate_buffer=True
 
 ########################################################################################################################
 
@@ -71,15 +76,24 @@ def month_func(month_idx): #, ds=ds):
             print('executed')
             month_grouped=month_grouped # leave as is: dont go forward
         elif i < len(idx)-1:
-            # try:  # originally whole try statement was commented out
-            #     # month_grouped[ idx[i+1]+1 : idx[i+1]+16 ] = month_idx*np.ones(15)  # org
-            #     month_grouped[ idx[i+1]+1 : idx[i+1]+(15*4)+1 ] = month_idx*np.ones(15*4)  # BK addition
-            # except:
-            #     month_grouped=month_grouped
-            month_grouped[idx[i+1]+1:idx[i+1]+(15*4)+1]=month_idx*np.ones(15*4)  # original code. 
+            try:  # originally whole try statement was commented out
+                # month_grouped[ idx[i+1]+1 : idx[i+1]+16 ] = month_idx*np.ones(15)  # org
+                month_grouped[ idx[i+1]+1 : idx[i+1]+(15*4)+1 ] = month_idx*np.ones(15*4)  # BK addition
+            except:
+                month_grouped=month_grouped
+            # month_grouped[idx[i+1]+1:idx[i+1]+(15*4)+1]=month_idx*np.ones(15*4)  # original code. 
 
-    dsGroup=ds.groupby(month_grouped).groups
-    ds_month=ds.isel(time=dsGroup[month_idx])
+    # print('   grouping')
+    # t2=time.time()
+    # dsGroup=ds.groupby(month_grouped).groups
+    # print('   grouped ', round(time.time()-t2,2) ); t3=time.time()
+    # ds_month=ds.isel(time=dsGroup[month_idx]).load()
+    # print( '   ds_month loaded ' , round(time.time()-t3,2) )
+
+    # this may be way faster?
+    ds_month = ds.sel(time=ds.time[month_grouped.values.astype('bool')]) #.load() add this next time round
+    # print('   grouped ', round(time.time()-t2,2) ); t3=time.time()
+    # - - - - - - - - - -- - - - - -
 
     # validate:
     try:
@@ -88,17 +102,35 @@ def month_func(month_idx): #, ds=ds):
         print("   ", ds_month.indexes['time'].to_datetimeindex().values.min().astype('datetime64[D]'), 
                      ds_month.indexes['time'].to_datetimeindex().values.max().astype('datetime64[D]'))
 
+
+    # # # Validate buffer of 15 days neighbouring months (output is somewhat messy in parallel)
+    if validate_buffer:
+        if month_idx==1 and np.any(ds_month.time.dt.month==12):
+            print('   month ',12,' ',sum(ds_month.time.dt.month.values==12),'times in month ',month_idx)
+        elif np.any(ds_month.time.dt.month==month_idx-1):
+            print('   month ',month_idx-1,' ',sum(ds_month.time.dt.month.values==month_idx-1), 'times in month ',month_idx)
+
+        if np.any(ds_month.time.dt.month==month_idx):
+            print('   month ',month_idx,' ',sum(ds_month.time.dt.month.values==month_idx),' times in month ',month_idx)
+
+        if month_idx!=12 and np.any(ds_month.time.dt.month==month_idx+1):
+            print('   month ',month_idx+1,' ',sum(ds_month.time.dt.month.values==month_idx+1),' times in month ',month_idx)
+        elif month_idx==12 and np.any(ds_month.time.dt.month==1):
+            print('   month ',1,' ',sum(ds_month.time.dt.month.values==1),' times in month ',month_idx)
+
     # print mem usage:
     # Getting % usage of virtual_memory ( 3rd field) !!! This gives % of Node, not of mem allocated, so better use absolute amount below:
     # print('   * * *   RAM memory % used:', psutil.virtual_memory()[2], '   * * *   ')
     # Getting usage of virtual_memory in GB ( 4th field)
-    print('   * * *   RAM Used (GB):', psutil.virtual_memory()[3]/1000000000, '   * * *   \n')
+    print('   * * *   RAM Used (GB):', psutil.virtual_memory()[3]/1000000000, '   * * *   ')
 
     # save the monthly file to disk:
     # !!! Note that the esm_bias_correction fortran code expects this time encoding, if it is changed here the output of the bias correction will have the wromg time stamp!!!!
+    print('   writing to file.....'); t3=time.time()
     ds_month.to_netcdf(out_dir+modLs[z]+'_'+str(month_idx).zfill(2)+'.nc'  ,  encoding={'time':{'units':"days since 1900-01-01"}}) 
-    # "hours since 1950-01-01T12:00:00"
+    print('\n   written to ', out_dir+modLs[z]+'_'+str(month_idx).zfill(2)+'.nc' , ' in ', round(time.time()-t3, 2) ,' s  \n')
 
+    del ds_month
 
 #-------------------- loop over months and scenarios  ------------------
 for z in range(len(modLs)):
@@ -107,13 +139,12 @@ for z in range(len(modLs)):
         print(modLs[z], scen)
         t1 = time.time()
 
-        # Open the entire raw dataset for this scenatio:
-        print(dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_20150101-20200101_subset_c.nc') # for debugging
-        ds = xr.open_mfdataset( dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_subset_c.nc'  ,combine='by_coords')
-        
-        # for testing, open just one file (look at years/scen combi)  # NB YEAR!!
-        # ds = xr.open_mfdataset( dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_20150101-20200101_subset_c.nc'  ,combine='by_coords') # 1 file of 5y for testing 
-        # ds = xr.open_mfdataset( dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_19500101-19600101_subset_c.nc'  ,combine='by_coords') # 1 file of 5y for testing 
+        # Open the entire raw dataset for this scenatio: (You should use chunk sizes of about 1 million elements.)
+        print(dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_subset_c.nc') # for debugging
+        if modLs[z] =='CMCC-CM2-SR5':
+            ds = xr.open_mfdataset( dir_raw_decmp + modLs[z]+'/'+scen+'/'+'*_6hrLev_'+scen+'_*_subset_c.nc'  ,combine='by_coords', chunks = {'time':10} )
+        else:
+            ds = xr.open_mfdataset( dir_raw_decmp + modLs[z]+'/'+scen+'/'+modLs[z]+'_6hrLev_'+scen+'_*_subset_c.nc'  ,combine='by_coords', chunks = {'time':10} )
 
 
         ds=ds.sel(time=slice('1950-01-01T12:00','2099-12-31T18:00'))
@@ -142,7 +173,6 @@ for z in range(len(modLs)):
         # make output directory (w. modLs[z]/scen subdirs) if it doesnt exist:
         out_dir = dir_raw_month + modLs[z] +'/' + scen + '/'
         if not os.path.exists(out_dir):
-            # os.mkdir(out_dir)
             os.makedirs(out_dir)  # to make parent + subdirs
 
 
@@ -160,11 +190,3 @@ print("*********        For models: ", modLs, "        ************")
 print("*********        and scenarios: ", scenarios, "         ************")
 print("************************************************************************************* ")
 print("\n")
-
-
-
-
-    
-
-
-

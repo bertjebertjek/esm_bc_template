@@ -16,12 +16,12 @@
 
 # the models for which directories will be created:
 # declare -a ModelArray=("CanESM5" "CESM2" "CMCC-CM2-SR5" "CNRM-ESM2-1" "HadGEM3-GC31-LL" "MIROC-ES2L" "MPI-ESM1-2-HR" "MRI-ESM2-0" "NorESM2-MM" "UKESM1-0-LL")
-declare -a ModelArray=("CanESM5") #("CESM2" )  #  test
+declare -a ModelArray=("CMCC-CM2-SR5"  "NorESM2-MM")  #("CanESM5") #  test
 
 # # The scenarios
-declare -a ScenarioArray=("historical" "ssp585" )  # test
+# declare -a ScenarioArray=("historical" "ssp585" )  # test
 # declare -a ScenarioArray=("historical")
-# declare -a ScenarioArray=("historical" "ssp585" "ssp370")
+declare -a ScenarioArray=("historical" "ssp585" "ssp370")
 
 # specify the folder where the model/scenario ESM stucture will be set up:
 root_dir="/glade/work/bkruyt/ESM_bias_correction/CMIP6"
@@ -47,10 +47,10 @@ queue='cheyenne'
 mem=20
 
 # The number of years per job, currently only options are 5 years, or ~30 years.
-FiveYearChunks=true
+FiveYearChunks=false
 
 # Exclude correction? (This is an option in the Fortran ESM bias correction, and is set via the config.nml)
-ExcludeCorrection=true
+ExcludeCorrection=false
 
 #---------------------------- No need to modify below this line  -----------------------------------
 
@@ -87,7 +87,7 @@ for mdl in ${ModelArray[@]}; do
 		rm -r $root_dir/$mdl/$scen/*
 
 		{ # try
-			rsync -r --exclude 'preprocess' --exclude 'helper_scripts' --exclude 'duplicate_months.sh' --exclude 'MAIN.sh' *  $root_dir/$mdl/$scen
+			rsync -r --exclude 'helper_scripts' --exclude 'duplicate_months.sh' --exclude 'MAIN.sh' *  $root_dir/$mdl/$scen
 
 		} || { # catch (in case rsync isn't available or some other error. )
 			echo "   rsync error"
@@ -110,9 +110,7 @@ for mdl in ${ModelArray[@]}; do
 
 		# Call the duplicate months script with arguments:
 		# /bin/bash duplicate_months.sh "$root_dir/$mdl/$scen" $queue $mem
-
-		# under dev: 
-		/bin/bash duplicate_months_n_yr.sh "$root_dir/$mdl/$scen" $queue $mem $FiveYearChunks $ExcludeCorrection
+		/bin/bash duplicate_months.sh "$root_dir/$mdl/$scen" $queue $mem $FiveYearChunks $ExcludeCorrection
 
 
 		echo "    Finished ESM bias correction set-up for $root_dir/$mdl/$scen"

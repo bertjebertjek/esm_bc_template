@@ -1,0 +1,19 @@
+#!/bin/bash -l
+#PBS -N BC_2D_ESM
+#PBS -A p48500028
+#PBS -l select=1:ncpus=12:mpiprocs=12:mem=350GB
+#PBS -l walltime=12:00:00
+#PBS -q casper
+#PBS -j oe
+
+
+__conda_setup="$('/glade/work/yifanc/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+eval "$__conda_setup"
+unset __conda_setup
+conda activate /glade/work/yifanc/anaconda3/envs/py3
+
+# module load conda
+# conda activate /glade/work/bkruyt/conda-envs/mypy39
+
+### Run program
+python -u 2D_ESM_bias_correction.py

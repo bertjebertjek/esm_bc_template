@@ -5,7 +5,8 @@ This README describes the procedure for the Bias correction of 3D and 2D (separa
 NOTE: this repository only contains the tempate folder structure, the actual fortran code can be found on [the NCAR github page](https://github.com/NCAR/ESM_bias_correction)
 
 
-## Installation
+## <a name="install"></a>Installation
+
 
 The fortran code can be found here: [github.com/NCAR/ESM_bias_correction](https://github.com/NCAR/ESM_bias_correction). (Compile and link to the executable `esm_bias_correction` in the main folder.) Make sure to use the branch 'discontinuous time' (currently only available at [Bert's github](https://github.com/bertjebertjek/ESM_bias_correction/tree/discontinuous_time), awaiting PR on NCAR github ) if you want to bias correct per month. Otherwise the time variable output from the esm fortran code will be incorrect, and the postprocessing scripts will result in an error. You can overwrite the erroneous time variable but this can easily lead to mistakes.
 
@@ -23,9 +24,9 @@ The GCM data need to be downloaded and depending on the model, certain variables
 Both the GCM data and the ERAi data need to be separated into monthly files, so the bias correction can be done per month. 
 #### 1A. Make monthly GCM files
 Divide the GCM output into monthly files. This means grouping all the january's, all the february's etc. 
-Use the script `create_monthly_files_prl.py` in the folder preprocess. It is paralellized over 12 months/cores.
+Use the script `create_monthly_files_prl.py` in the folder preprocess. It is paralellized over 12 months/cores. Note that the time encoding in this script should NOT be changed from `days since 1900`, since this is what the ESM fortran code expects. Otherwise the output timestamps will be incorrect!
 
-! Specify the models and scenario's /periods in lines 28-36 of the script `create_monthly_files_prl.py`:
+Specify the models, scenario's/periods and paths in lines 28-36 of the script `create_monthly_files_prl.py`:
 
 ```python
 scenarios=['historical', 'ssp585','ssp370']
@@ -40,14 +41,15 @@ dir_raw_month = '/glade/scratch/bkruyt/CMIP6/raw_month/'
 
 Then submit (modify queue if you want to submit to cheyenne):
 
-``` bash 
-qsubcasper create_monthly_files_BK.pbs
+``` bash
+qsubcasper create_monthly_files_prl.pbs
 ```
 
 #### 1B. Make monthly ERAi files
 Similarly, we need monthly files for ERA-Interim to bias correct 'towards'. These may already be available at `/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/merged_by_month_bc` (Western US) or  `/glade/scratch/bkruyt/erai/erai_greatlakes_month` (Great lakes domain). If not, they can be made from standard ERAi files with the Jupyter notebook found in `preprocess/create_monthly_ERAi_files.ipynb`. Note that these files do need to be named `erai_01.nc` etc. for the bias-correction code to work.
 
 ### 2. Apply ESM bias correction (3D)
+The 3D fields are bias corrected using the fortran code (see [installation](#install)), but first a folder structure must be set up:
 
 #### 2A. Setup folder structure
 This involves an elaborate folder structure. However the process is somewhat automated. A template folder structure can be found on [Bert's github](https://github.com/bertjebertjek/esm_bc_template). the `MAIN.sh` file is the only one that needs to be modified. Specify the model, scenarios and paths in the section `USER SETTINGS` (lines 15-35):
@@ -119,7 +121,30 @@ This will launch all job scripts for the model/scenario combination. Currently a
 
 After the bias correction has run, the output dir will have files per month and ~30y time-period. To combine these into yearly files, use the notebook 'stich_together_after_ESM.ipynb' in the postprocessing folder.
 
-Be sure to check the final files an see if they make sense. I cannot guarantee that there might be issues with certain models or fringe-case scenarios. 
+### 4 2D bias correction. 
+
+The fortran code only corrects the 3D variables. To additionally correct SST/tskin and Cp, use either the notebook or the python script + pbs jobscript in the folder `2D_ESM_bias_correction`. Set the correct input- and ouput paths, and run.
+
+```python
+### SET paths and parameters  ####
+
+# ERAi
+# era_path='/glade/u/home/currierw/scratch/erai/convection/erai/clipped_by_month_convert_SST/'
+# era_path='/glade/scratch/bkruyt/erai/erai_greatlakes_month/' # not chronological because monthly + buffer
+era_path='/glade/scratch/gutmann/icar/forcing/erai_conus/monthly/'  # path with erai files (chronological) cp not corrected!! And CONUS wide...
+
+modelLs       = ['MIROC-ES2L']; i=0
+scenarios     = ['ssp370'] #['ssp585'] #
+
+raw_dir = '/glade/scratch/bkruyt/CMIP6/raw/' #MIROC-ES2L/historical' 
+in_dir = '/glade/scratch/bkruyt/CMIP6/BC_3D_merged/' #MIROC-ES2L/historical' 
+out_dir='/glade/scratch/bkruyt/CMIP6/BC_2D_3D/'
+```
+
+Not that the code will automatically correct the erai convective precipitation to mm/s if it does not find an attribute called `Note` in the Cp variable that is defined as ` 'Converted from mm/time step (6 hours) to mm/s by dividing by 21600' `
+
+### Footnotes
+Be sure to check the final files an see if they make sense. I cannot guarantee that there might be issues with certain models or fringe-case scenarios. There are some scripts in the folder `helper_scripts` to check for correct time, but as always look critical at the results and when in doubt, do reach out.
 Happy modeling!
 
 
